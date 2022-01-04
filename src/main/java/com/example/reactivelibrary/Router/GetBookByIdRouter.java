@@ -1,6 +1,7 @@
 package com.example.reactivelibrary.Router;
 
 import com.example.reactivelibrary.DTO.BookDto;
+import com.example.reactivelibrary.UseCase.GetBookByIdUseCase;
 import com.example.reactivelibrary.UseCase.GetBookByNameUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +15,15 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class GetBookByNameRouter {
+public class GetBookByIdRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> getBookByName(GetBookByNameUseCase getBookByNameUseCase){
-        return route(GET("/libros/name={name}").and(accept(MediaType.APPLICATION_JSON)),
+    public RouterFunction<ServerResponse> getBookById(GetBookByIdUseCase getBookByIdUseCase){
+        return route(GET("/libros/id={id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(getBookByNameUseCase.getByName(request.pathVariable("name")), BookDto.class))
+                        .body(BodyInserters.fromPublisher(getBookByIdUseCase
+                                .get(request.pathVariable("id")), BookDto.class))
         );
     }
 }

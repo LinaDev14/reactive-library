@@ -21,8 +21,7 @@ public class GetBookByNameUseCase implements GetBookByName{
 
     @Override
     public Flux<BookDto> getByName(String name) {
-        return libraryRepository
-                .findAll()
+        return libraryRepository.findAll()
                 .filter(book -> book.getName().toLowerCase().replace(" ", "")
                         .contains(name.toLowerCase().replace(" ", "")))
                 .map(bookMapper.mapToDto());
