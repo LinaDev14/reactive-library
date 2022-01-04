@@ -69,4 +69,5 @@ public class BookDto {
     public void setLastBorrowed(Date lastBorrowed) {
         this.lastBorrowed = lastBorrowed;
     }
+
 }

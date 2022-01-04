@@ -13,6 +13,7 @@ public class BookMapper {
     public Function<BookDto, Book> mapToBook(){
         return bookDto -> {
             var book = new Book();
+            book.setId(bookDto.getId());
             book.setName(bookDto.getName());
             book.setBookType(bookDto.getBookType());
             book.setAvailable(bookDto.getAvailable());
@@ -57,5 +58,15 @@ public class BookMapper {
             return null;
         }
         return bookList.stream().map(this::fromModel).collect(Collectors.toList());
+    }
+
+    public BookDto updateNameDto(BookDto bookDto, String name){
+        return new BookDto(
+                bookDto.getId(),
+                name,
+                bookDto.getBookType(),
+                bookDto.getAvailable(),
+                bookDto.getLastBorrowed()
+        );
     }
 }
