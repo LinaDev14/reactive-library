@@ -4,6 +4,8 @@ import com.example.reactivelibrary.DTO.BookDto;
 import com.example.reactivelibrary.Model.Book;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,6 +33,16 @@ public class BookMapper {
                     book.getAvailable(),
                     book.getLastBorrowed()
             );
+    }
+
+    public Function<BookDto, BookDto> setAvalable(Boolean state){
+        return bookDto -> new BookDto(
+                bookDto.getId(),
+                bookDto.getName(),
+                bookDto.getBookType(),
+                state,
+                Date.from(Instant.now())
+        );
     }
 
     public Book fromDto(BookDto bookDto){

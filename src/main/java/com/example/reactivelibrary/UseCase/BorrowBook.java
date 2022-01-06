@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 
 public interface BorrowBook {
-    public Mono<BookDto> borrow(BookDto bookDto);
+    public Mono<String> borrowBook(String id);
 }

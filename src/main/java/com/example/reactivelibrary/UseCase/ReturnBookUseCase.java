@@ -9,30 +9,29 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Validated
-public class BorrowBookUseCase implements BorrowBook{
+public class ReturnBookUseCase implements ReturnBook{
 
     private final LibraryRepository libraryRepository;
     private final BookMapper bookMapper;
 
-    public BorrowBookUseCase(LibraryRepository libraryRepository, BookMapper bookMapper){
+    public ReturnBookUseCase(LibraryRepository libraryRepository, BookMapper bookMapper){
         this.libraryRepository = libraryRepository;
         this.bookMapper = bookMapper;
     }
 
 
     @Override
-    public Mono<String> borrowBook(String id) {
+    public Mono<String> returnBook(String id) {
         Mono<Book> book = libraryRepository.findById(id);
-
         return book.flatMap( b -> {
-            if (b.getAvailable().equals(true)) {
-                return libraryRepository.save(bookMapper.mapToBook()
-                                .apply(bookMapper.setAvalable(false)
-                                        .apply(bookMapper.mapToDto().apply(b))))
-                        .thenReturn("Prestado");
-            }
-            return Mono.just("no disponible");
-        }
+                    if (b.getAvailable().equals(false)) {
+                        return libraryRepository.save(bookMapper.mapToBook()
+                                        .apply(bookMapper.setAvalable(true)
+                                                .apply(bookMapper.mapToDto().apply(b))))
+                                .thenReturn("Devuelto");
+                    }
+                    return Mono.just("ya se encuentra en la biblioteca");
+                }
         );
     }
 }

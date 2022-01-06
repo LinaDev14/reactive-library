@@ -1,5 +1,6 @@
 package com.example.reactivelibrary.Model;
 
+import com.example.reactivelibrary.Enums.BookType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,7 +12,7 @@ public class Book {
     @Id
     private String id;
     private String name;
-    private String bookType;
+    private BookType bookType;
     private Boolean available;
     private Date lastBorrowed;
 
@@ -31,11 +32,11 @@ public class Book {
         this.name = name;
     }
 
-    public String getBookType() {
+    public BookType getBookType() {
         return bookType;
     }
 
-    public void setBookType(String bookType) {
+    public void setBookType(BookType bookType) {
         this.bookType = bookType;
     }
 

@@ -1,13 +1,13 @@
 package com.example.reactivelibrary.DTO;
 
+import com.example.reactivelibrary.Enums.BookType;
 import java.util.Date;
-import java.util.Objects;
 
 public class BookDto {
 
     private String id;
     private String name;
-    private String bookType;
+    private BookType bookType;
     private Boolean available;
     private Date lastBorrowed;
 
@@ -15,14 +15,14 @@ public class BookDto {
 
     }
 
-    public BookDto(String name, String bookType, Boolean available, Date lastBorrowed){
+    public BookDto(String name, BookType bookType, Boolean available, Date lastBorrowed){
         this.name = name;
         this.bookType = bookType;
         this.available = available;
         this.lastBorrowed = lastBorrowed;
     }
 
-    public BookDto(String id, String name, String bookType, Boolean available, Date lastBorrowed){
+    public BookDto(String id, String name, BookType bookType, Boolean available, Date lastBorrowed){
         this.id = id;
         this.name = name;
         this.bookType = bookType;
@@ -46,11 +46,11 @@ public class BookDto {
         this.name = name;
     }
 
-    public String getBookType() {
+    public BookType getBookType() {
         return bookType;
     }
 
-    public void setBookType(String bookType) {
+    public void setBookType(BookType bookType) {
         this.bookType = bookType;
     }
 
