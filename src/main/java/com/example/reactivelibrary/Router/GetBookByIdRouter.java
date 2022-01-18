@@ -19,7 +19,7 @@ public class GetBookByIdRouter {
 
     @Bean
     public RouterFunction<ServerResponse> getBookById(GetBookByIdUseCase getBookByIdUseCase){
-        return route(GET("/libros/id={id}").and(accept(MediaType.APPLICATION_JSON)),
+        return route(GET("/libros/id/{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getBookByIdUseCase

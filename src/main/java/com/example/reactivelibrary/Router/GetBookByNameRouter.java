@@ -18,7 +18,7 @@ public class GetBookByNameRouter {
 
     @Bean
     public RouterFunction<ServerResponse> getBookByName(GetBookByNameUseCase getBookByNameUseCase){
-        return route(GET("/libros/name={name}").and(accept(MediaType.APPLICATION_JSON)),
+        return route(GET("/libros/name/{name}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getBookByNameUseCase.getByName(request.pathVariable("name")), BookDto.class))

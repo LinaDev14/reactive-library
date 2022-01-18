@@ -5,17 +5,14 @@ import com.example.reactivelibrary.Enums.BookType;
 import com.example.reactivelibrary.Mapper.BookMapper;
 import com.example.reactivelibrary.Model.Book;
 import com.example.reactivelibrary.Repository.LibraryRepository;
-import com.example.reactivelibrary.UseCase.CreateBookUseCase;
+import com.example.reactivelibrary.UseCase.GetBookByIdUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -25,12 +22,11 @@ import java.sql.Date;
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @WebFluxTest
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {CreateBookRouter.class, CreateBookUseCase.class, BookMapper.class})
-class CreateBookRouterTest {
+@ContextConfiguration(classes = {GetBookByIdRouter.class, GetBookByIdUseCase.class, BookMapper.class})
+class GetBookByIdRouterTest {
 
     @MockBean
     private LibraryRepository libraryRepository;
@@ -39,7 +35,7 @@ class CreateBookRouterTest {
     private WebTestClient webTestClient;
 
     @Test
-    void createBookTest(){
+    void GetBookByIdTest(){
 
         Book book = new Book();
         book.setId("xxx");
@@ -48,21 +44,12 @@ class CreateBookRouterTest {
         book.setAvailable(true);
         book.setLastBorrowed(Date.from(Instant.now()));
 
-        BookDto bookDto = new BookDto(book.getId(),
-                book.getName(),
-                book.getBookType(),
-                book.getAvailable(),
-                book.getLastBorrowed());
-
         Mono<Book> bookMono = Mono.just(book);
 
-        Mockito.when(libraryRepository.save(any())).thenReturn(bookMono);
+        Mockito.when(libraryRepository.findById("xxx")).thenReturn(bookMono);
 
-        webTestClient.post()
-                .uri("/libros/crear")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(bookDto), BookDto.class)
+        webTestClient.get()
+                .uri("/libros/id/xxx")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(BookDto.class)
@@ -73,7 +60,6 @@ class CreateBookRouterTest {
                     Assertions.assertEquals(response.getAvailable(), book.getAvailable());
 
                 });
-        Mockito.verify(libraryRepository, Mockito.times(1)).save(any());
     }
 
 }

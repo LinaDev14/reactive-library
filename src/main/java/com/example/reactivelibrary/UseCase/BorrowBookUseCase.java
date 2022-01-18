@@ -23,7 +23,6 @@ public class BorrowBookUseCase implements BorrowBook{
     @Override
     public Mono<String> borrowBook(String id) {
         Mono<Book> book = libraryRepository.findById(id);
-
         return book.flatMap( b -> {
             if (b.getAvailable().equals(true)) {
                 return libraryRepository.save(bookMapper.mapToBook()
